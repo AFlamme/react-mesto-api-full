@@ -1,0 +1,8 @@
+.popup__status-image {
+  height: 120px;
+  width: 120px;
+  margin: 65px 155px 0;
+  
+  object-fit: cover;
+  align-self: center;
+}
