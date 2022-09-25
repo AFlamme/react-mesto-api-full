@@ -8,7 +8,6 @@
   height: 100vh;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  background-color: black;
 }
 
 .page:focus {

@@ -9,9 +9,7 @@ export default function Header({ email, onSignOut }) {
   function handleClickBurger() {
     setIsClicked(!isClicked);
   }
-  // Без контроля ширины окна просмотра,
-  // если в мобильной версии закрыть бургер-меню и развернуть большой экран,
-  // то поле email-а и кнопка имеют 'display: none'
+  // Без контроля ширины окна просмотра, если в мобильной версии закрыть бургер меню и развернуть большой экран, то поле имейла и кнопка имеют display: none
   const isMobile = useMediaQuery({ query: `(max-width: 500px)` });
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
-import { currentUserContext } from '../contexts/CurrentUserContext.jsx';
+import { currentUserContext } from '../contexts/CurrentUserContext.js';
 import avatar from '../images/avatar.png';
 import api from '../utils/api.js';
 import * as auth from '../utils/auth.js';
@@ -20,23 +20,36 @@ import ProtectedRoute from './ProtectedRoute.jsx';
 
 function App() {
   const history = useHistory();
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false); // Открытие попапа редактирования профиля
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false); // Открытие попапа добавления карточек
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false); // Открытие попапа смены аватара
-  const [selectedCard, setSelectedCard] = useState({}); // Данные карточки на полный экран
-  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false); // Открытие попап карточки на весь экран
-  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false); // Открытие попапа удаления карточки
-  const [cardDelete, setCardDelete] = useState({}); // Данные для удалённой карточки
-  const [currentUser, setCurrentUser] = useState({ name: 'Имя пользователя', about: 'О пользователе', avatar: avatar}); // Данные пользователя
-  const [cards, setCards] = useState([]); // Карточки
-  const [isLoader, setIsLoader] = useState(false); // Лоадер
-  const [isInfoTooltipShow, setIsInfoTooltipShow] = useState({ isOpen: false, successful: false }); // успех/неудача
 
-  // Вход
+  // стейты:
+  // открытие попапа редактирования профиля
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  // открытития попапа добавления карточек
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  // открытие попапа смены аватара
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  // данные карточки на полный экран
+  const [selectedCard, setSelectedCard] = useState({});
+  // открытие попап карточки на весь экран
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+  // открытие попапа удаления карточки
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  // данные для удалённой карточки
+  const [cardDelete, setCardDelete] = useState({});
+  // данные пользователя
+  const [currentUser, setCurrentUser] = useState({ name: 'Имя пользователя', about: 'О пользователе', avatar: avatar});
+  // карточки
+  const [cards, setCards] = useState([]);
+  // лоадер
+  const [isLoader, setIsLoader] = useState(false);
+  // успех/неудача
+  const [isInfoTooltipShow, setIsInfoTooltipShow] = useState({ isOpen: false, successful: false });
+
+  // стейты для входа
   const [loggedIn, setLoggedIn] =  useState(false);
   const [email, setEmail] = useState('');
 
-  // Проверка токена и авторизация пользователя
+  // проверка токена и авторизация пользователя
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
@@ -52,7 +65,7 @@ function App() {
     }
   }, [history])
 
-  // При входе (залогиниться) получаем карточки и информацию о пользователе
+  // если залогинены - получаем карточки и информацию о пользователе
   useEffect(() => {
     if (loggedIn) {
       setIsLoader(true);
@@ -75,11 +88,13 @@ function App() {
           }
         }
         document.addEventListener('keyup', onEscClose);
+        // при размонтировании удалим обработчик данным колбэком
         return () => {
           document.removeEventListener('keyup', onEscClose)
         };
       }
-    }, [callback, dependency])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dependency])
   }
 
   function handleEditProfileClick() {
@@ -103,19 +118,19 @@ function App() {
     setIsInfoTooltipShow({ isOpen: false, successful: false })
   }
 
-  // Открытие картинки на полный экран
+  // функция открытия на полный экран картинки
   function handleCardClick(data) {
     setIsImagePopupOpen(true);
     setSelectedCard(data)
   }
 
-  // Функция-слушатель на клик по корзинке, чтобы открыть попап
+   // функция слушатель на клик по корзинке, чтобы открыть попап
   function handleDeleteCardClick(data) {
     setCardDelete(data)
     setIsDeletePopupOpen(true);
   }
 
-  // Функция управляет удалением карточки
+  // ф-ция управляет удалением карточки
   function handleDeleteCard() {
     setIsLoader(true);
     api.deleteCard(cardDelete)
@@ -127,7 +142,7 @@ function App() {
       .finally(() => setIsLoader(false))
   }
 
-  // Функция по постановке и снятию лайка
+  // функция постановки и снятия лайка
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some(i => i === currentUser._id);
@@ -147,7 +162,7 @@ function App() {
       }
   }
 
-  // Отправка данных пользователя на сервер
+  // отправка данных пользователя на сервер
   function handleUpdateUser(info) {
     setIsLoader(true);
     api.setUserInfo(info)
@@ -157,7 +172,7 @@ function App() {
       .finally(() => setIsLoader(false))
   }
 
-  // Отправка аватара пользователя на сервер
+  // отправка аватара пользователя на сервер
   function handleUpdateAvatar(input) {
     setIsLoader(true);
       api.setUserAvatar(input)
@@ -167,7 +182,7 @@ function App() {
       .finally(() => setIsLoader(false))
   }
 
-  // Отправка новой карточки и обновление
+  // отправка новой карточки и обновление стейта
   function handleAddPlace(data) {
     setIsLoader(true);
     api.addCard(data)
@@ -183,7 +198,7 @@ function App() {
     setIsInfoTooltipShow({ isOpen: true, successful: res })
   }
 
-  // Регистрация пользователя
+  // регистрация пользователя
   function handleRegister({ email, password }) {
     setIsLoader(true);
     auth.register(email, password)
@@ -200,7 +215,7 @@ function App() {
       .finally(() => setIsLoader(false))
   }
 
-  // Вход
+  // вход
   function handleLogin({ email, password }) {
     setIsLoader(true);
     auth.login(email, password)
@@ -219,7 +234,7 @@ function App() {
       .finally(() => setIsLoader(false))
   }
 
-  // Выход
+  // выход
   const handleSignOut = () => {
     localStorage.removeItem('jwt');
     setEmail('');

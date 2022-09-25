@@ -10,7 +10,7 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, useEs
     onUpdateAvatar(values);
   }
 
-  // Очищаем поле
+  // очищаем поля
   useEffect(() => {
     resetForm();
   }, [isOpen, resetForm]);

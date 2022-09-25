@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const isURL = require('validator/lib/isURL');
 
 const cardSchema = new mongoose.Schema({
-  name: {
+  name: { // у пользователя есть имя — опишем требования к имени в схеме:
     type: String,
-    required: true,
+    required: true, // оно должно быть у каждого пользователя, так что имя — обязательное поле
     minlength: 2,
     maxlength: 30,
   },

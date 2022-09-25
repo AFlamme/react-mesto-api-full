@@ -29,7 +29,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace, useEscapePr
         <label className="popup__label">
           <input
             type="text"
-            placeholder="Название места"
+            placeholder="Название"
             name="name"
             value={values.name || ''}
             onChange={handleChange}
@@ -46,7 +46,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace, useEscapePr
         <label className="popup__label">
           <input
             type="url"
-            placeholder="URL-cсылка на картинку"
+            placeholder="Ссылка на картинку"
             name="link"
             value={values.link || ''}
             onChange={handleChange}
