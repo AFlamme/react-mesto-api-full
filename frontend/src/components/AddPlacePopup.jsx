@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import PopupWithForm from './PopupWithForm.js';
-import useFormWithValidation from '../hooks/useFormWithValidation.js';
+import PopupWithForm from './PopupWithForm.jsx';
+import useFormWithValidation from '../hooks/useFormWithValidation.jsx';
 
 export default function AddPlacePopup({ isOpen, onClose, onAddPlace, useEscapePress}) {
   const {values, handleChange, resetForm, errors, isValid} = useFormWithValidation();

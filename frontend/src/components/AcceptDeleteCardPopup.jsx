@@ -1,4 +1,4 @@
-import PopupWithForm from './PopupWithForm.js';
+import PopupWithForm from './PopupWithForm.jsx';
 
 export default function AcceptDeleteCardPopup({ isOpen, onClose, isAccept, useEscapePress }) {
   function handleDeleteCard (e) {

@@ -1,22 +1,21 @@
-import { useEffect} from 'react';
-import { Link } from 'react-router-dom';
-import useFormWithValidation from '../hooks/useFormWithValidation.js';
+import { useEffect } from 'react';
+import useFormWithValidation from '../hooks/useFormWithValidation.jsx';
 
-export default function Register({handleRegister}) {
+export default function Login({ onLogin }) {
   const {values, handleChange, resetForm, errors, isValid} = useFormWithValidation();
 
   function handleSubmit(e) {
     e.preventDefault();
-    handleRegister(values);
+    onLogin(values);
   }
 
   useEffect(() => {
     resetForm();
-  }, [resetForm])
+  }, [resetForm]);
 
   return (
     <div className="register page__register">
-      <h2 className="register__title">Регистрация</h2>
+      <h2 className="register__title">Вход</h2>
       <form name="form_register" className="register__form" noValidate onSubmit={handleSubmit}>
         <fieldset className="register__fieldset">
           <label className="register__label">
@@ -57,10 +56,9 @@ export default function Register({handleRegister}) {
           className={`register__button ${!isValid && 'register__button_disabled'}`}
           disabled={!isValid}
         >
-          Зарегистрироваться
+          Войти
         </button>
       </form>
-      <Link to="/signin" className="register__link">Уже зарегистрированы? Войти</Link>
     </div>
   )
 }

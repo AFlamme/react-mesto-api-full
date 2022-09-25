@@ -1,22 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
-import { currentUserContext } from '../contexts/CurrentUserContext.js';
+import { currentUserContext } from '../contexts/CurrentUserContext.jsx';
 import avatar from '../images/avatar.png';
 import api from '../utils/api.js';
 import * as auth from '../utils/auth.js';
-import Footer from './Footer.js';
-import Header from './Header.js';
-import ImagePopup from './ImagePopup.js';
-import Main from './Main.js';
-import EditProfilePopup from './EditProfilePopup.js'
-import EditAvatarPopup from './EditAvatarPopup.js';
-import AddPlacePopup from './AddPlacePopup.js';
-import AcceptDeleteCardPopup from './AcceptDeleteCardPopup.js';
-import Loader from './Loader.js';
-import Login from './Login.js';
-import Register from './Register.js';
-import InfoTooltip from './InfoTooltip.js';
-import ProtectedRoute from './ProtectedRoute.js';
+import Footer from './Footer.jsx';
+import Header from './Header.jsx';
+import ImagePopup from './ImagePopup.jsx';
+import Main from './Main.jsx';
+import EditProfilePopup from './EditProfilePopup.jsx'
+import EditAvatarPopup from './EditAvatarPopup.jsx';
+import AddPlacePopup from './AddPlacePopup.jsx';
+import AcceptDeleteCardPopup from './AcceptDeleteCardPopup.jsx';
+import Loader from './Loader.jsx';
+import Login from './Login.jsx';
+import Register from './Register.jsx';
+import InfoTooltip from './InfoTooltip.jsx';
+import ProtectedRoute from './ProtectedRoute.jsx';
 
 function App() {
   const history = useHistory();

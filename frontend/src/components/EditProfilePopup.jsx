@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
-import { currentUserContext } from '../contexts/CurrentUserContext.js';
-import useFormWithValidation from '../hooks/useFormWithValidation.js';
-import PopupWithForm from './PopupWithForm.js';
+import { currentUserContext } from '../contexts/CurrentUserContext.jsx';
+import useFormWithValidation from '../hooks/useFormWithValidation.jsx';
+import PopupWithForm from './PopupWithForm.jsx';
 
 export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, useEscapePress }) {
   const currentUser = useContext(currentUserContext);
