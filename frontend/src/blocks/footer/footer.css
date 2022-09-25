@@ -1,16 +1,4 @@
 .footer {
-  max-width: 880px;
-  padding: 66px 0 60px 0;
-  margin: 0 auto;
-  
-  display: flex;
-  align-items: start;
+  font-family: Inter, Arial, Helvetica, sans-serif;
   color: #545454;
-}
-
-@media screen and (max-width:768px) {
-  .footer {
-    padding: 48px 0 36px 0;
-    width: 100%;
-  }
 }

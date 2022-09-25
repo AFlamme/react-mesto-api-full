@@ -1,70 +1,70 @@
-import PopupWithForm from "./PopupWithForm";
-import { useContext, useEffect, useState } from "react";
-import CurrentUserContext from "../contexts/CurrentUserContext";
+import { useContext, useEffect } from 'react';
+import { currentUserContext } from '../contexts/CurrentUserContext.js';
+import useFormWithValidation from '../hooks/useFormWithValidation.js';
+import PopupWithForm from './PopupWithForm.js';
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const currentUser = useContext(CurrentUserContext);
+export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, useEscapePress }) {
+  const currentUser = useContext(currentUserContext);
+  const {values, handleChange, resetForm, errors, isValid} = useFormWithValidation();  // Универсальный обработчик полей
 
+  // После загрузки текущего пользователя из API
+  // его данные будут использованы в управляемых компонентах.
   useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
-  }, [currentUser, isOpen]);
+    if (currentUser) {
+      resetForm(currentUser, {}, true);
+    }
+  }, [isOpen, currentUser, resetForm]);
 
-  const onChangeName = (e) => {
-    setName(e.target.value);
-  };
-  const onChangeDescription = (e) => {
-    setDescription(e.target.value);
-  };
-  const handleSubmit = (e) => {
+  // Передаём значения управляемых компонентов во внешний обработчик
+  function handleSubmit(e) {
     e.preventDefault();
-    onUpdateUser({
-      name,
-      about: description,
-    });
-  };
+    onUpdateUser(values);
+  }
 
   return (
     <PopupWithForm
       name="edit"
       title="Редактировать профиль"
-      container="popup__container popup__form"
-      buttonText="Редактировать"
-      handleSubmit={handleSubmit}
       isOpen={isOpen}
-      onClose={onClose}>
-
-      <input
-        onChange={onChangeName}
-        value={name || ""}
-        type="text"
-        className="popup__input"
-        name="input-name"
-        id="input__popup-name"
-        minLength="2"
-        maxLength="40"
-        placeholder="Имя"
-        required/>
-
-      <span id="input__popup-name-error" className="popup__error" />
-
-      <input
-        onChange={onChangeDescription}
-        value={description || ""}
-        type="text"
-        className="popup__input"
-        name="input-about"
-        id="input__popup-about"
-        minLength="2"
-        maxLength="200"
-        placeholder="Вид деятельности"
-        required/>
-
-      <span id="input__popup-about-error" className="popup__error" />
+      onClose={onClose}
+      onSubmit={handleSubmit}
+      useEscapePress={useEscapePress}
+      isDisabled={!isValid}
+    >
+      <fieldset className="popup__info">
+        <label className="popup__label">
+          <input
+            type="text"
+            placeholder="Имя"
+            name="name"
+            value={values.name || ''}
+            id="name" minLength="2"
+            maxLength="40"
+            required
+            className="popup__input"
+            onChange={handleChange}
+          />
+          <span className="popup__error" id="name-error">
+            {errors.name || ""}
+          </span>
+        </label>
+        <label className="popup__label">
+          <input
+            type="text"
+            placeholder="О себе"
+            name="about"
+            value={values.about || ''}
+            id="about"
+            minLength="2"
+            maxLength="200"
+            required className="popup__input"
+            onChange={handleChange}
+          />
+          <span className="popup__error" id="about-error">
+            {errors.about || ''}
+          </span>
+        </label>
+      </fieldset>
     </PopupWithForm>
-  );
+  )
 }
-
-export default EditProfilePopup;

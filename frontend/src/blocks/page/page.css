@@ -1,17 +1,15 @@
 .page {
-  max-width: 1280px;  
-  min-height: 100vh;
+  min-width: 320px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding-top: 45px;
-
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  -moz-text-size-adjust: 100%;
-  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
 }
 
-@media screen and (max-width: 768px) {
-  .page {
-    padding-top: 28px;
-  }
+.page:focus {
+  outline:none
 }

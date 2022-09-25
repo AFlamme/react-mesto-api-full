@@ -1,17 +1,12 @@
 .profile {
-  margin: 0 auto;
-  margin-top: 40px;
-  margin-bottom: 51px;
-
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  color: white;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
-@media all and (max-width: 1024px) {
+@media screen and (max-width:500px) {
   .profile {
     flex-direction: column;
-    margin-top: 42px;
-    margin-bottom: 36px;
   }
 }

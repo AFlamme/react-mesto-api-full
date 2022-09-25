@@ -1,61 +1,66 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useEffect} from 'react';
+import { Link } from 'react-router-dom';
+import useFormWithValidation from '../hooks/useFormWithValidation.js';
 
-function Register(props) {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+export default function Register({handleRegister}) {
+  const {values, handleChange, resetForm, errors, isValid} = useFormWithValidation();
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
-    props.onSignup(email, password);
-  };
-  const handlePathChange = (newPath) => {
-    props.onPathChange(newPath);
-  };
+    handleRegister(values);
+  }
 
-  React.useEffect(() => {
-    handlePathChange("/sign-up");
-  }, []);
+  useEffect(() => {
+    resetForm();
+  }, [resetForm])
 
   return (
-    <div>
-      <form className="form" onSubmit={handleSubmit}>
-        <h1 className="form__title">Регистрация</h1>
-        <input
-          type="email"
-          onChange={handleEmailChange}
-          value={email}
-          className="form__item"
-          id="signin-email"
-          placeholder="Email"
-          required/>
-        <input
-          type="password"
-          onChange={handlePasswordChange}
-          className="form__item"
-          id="signin-password"
-          placeholder="Password"
-          value={password}
-          required/>
-        <button type="submit" className="form__button">
-          Регистрация
+    <div className="register page__register">
+      <h2 className="register__title">Регистрация</h2>
+      <form name="form_register" className="register__form" noValidate onSubmit={handleSubmit}>
+        <fieldset className="register__fieldset">
+          <label className="register__label">
+            <input
+              className="register__input"
+              type="email"
+              placeholder="Email"
+              name="email"
+              minLength="2"
+              maxLength="40"
+              value={values.email || ''}
+              onChange={handleChange}
+              required
+            />
+            <span className="register__error" id="email-error">
+              {errors.email || ''}
+            </span>
+          </label>
+          <label className="register__label">
+            <input
+              className="register__input"
+              type="password"
+              placeholder="Пароль"
+              name="password"
+              minLength="2"
+              maxLength="40"
+              value={values.password || ''}
+              onChange={handleChange}
+              required
+            />
+            <span className="register__error" id="password-error">
+              {errors.password || ''}
+            </span>
+          </label>
+        </fieldset>
+        <button
+          type="submit"
+          className={`register__button ${!isValid && 'register__button_disabled'}`}
+          disabled={!isValid}
+        >
+          Зарегистрироваться
         </button>
-        <p className="form__caption">
-          Уже зарегистрированы?
-          <Link className="form__link" to="/sign-in">
-            {" "}
-            Войти{" "}
-          </Link>
-        </p>
       </form>
+      <Link to="/signin" className="register__link">Уже зарегистрированы? Войти</Link>
     </div>
-  );
+  )
 }
-
-export default Register;

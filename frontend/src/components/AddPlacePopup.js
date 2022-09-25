@@ -1,62 +1,66 @@
-import PopupWithForm from "./PopupWithForm";
-import { useState } from "react";
+import { useEffect } from 'react';
+import PopupWithForm from './PopupWithForm.js';
+import useFormWithValidation from '../hooks/useFormWithValidation.js';
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
-  const [name, setName] = useState("");
-  const [link, setLink] = useState("");
+export default function AddPlacePopup({ isOpen, onClose, onAddPlace, useEscapePress}) {
+  const {values, handleChange, resetForm, errors, isValid} = useFormWithValidation();
 
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-  };
-  const handlePlaceChange = (e) => {
-    setLink(e.target.value);
-  };
-  const handleSubmit = (e) => {
+  function handleAddPlaceSubmit(e) {
     e.preventDefault();
-    onAddPlace({
-      name,
-      link,
-    });
-    setName("");
-    setLink("");
-  };
+    onAddPlace(values);
+  }
 
-  return (
+  useEffect(() => {
+    resetForm();
+  }, [isOpen, resetForm])
+
+  return(
     <PopupWithForm
-      name="add"
+      name="create-card"
       title="Новое место"
+      submitText="Создать"
       isOpen={isOpen}
-      container="popup__container popup__form"
       onClose={onClose}
-      handleSubmit={handleSubmit}
-      buttonText="Сохранить">
-      
-      <input
-        name="InputNameCard"
-        type="text"
-        id="input__popup-CardName"
-        className="popup__input"
-        placeholder="Название места"
-        onChange={handleNameChange}
-        minLength="2"
-        maxLength="40"
-        value={name || ""}
-        required/>
-
-      <span id="input__popup-CardName-error" className="popup__error" />
-      <input
-        type="url"
-        className="popup__input"
-        name="InputImgCard"
-        id="input__popup-CardImg"
-        placeholder="Ссылка на картинку"
-        value={link || ""}
-        onChange={handlePlaceChange}
-        required/>
-        
-      <span id="input__popup-CardImg-error" className="popup__error" />
+      onSubmit={handleAddPlaceSubmit}
+      useEscapePress={useEscapePress}
+      isDisabled={!isValid}
+    >
+      <fieldset className="popup__info">
+        <label className="popup__label">
+          <input
+            type="text"
+            placeholder="Название места"
+            name="name"
+            value={values.name || ''}
+            onChange={handleChange}
+            id="create-card__title"
+            minLength="2"
+            maxLength="30"
+            required
+            className="popup__input"
+          />
+          <span className="popup__error" id="create-card__title-error">
+            {errors.name || ''}
+          </span>
+        </label>
+        <label className="popup__label">
+          <input
+            type="url"
+            placeholder="URL-cсылка на картинку"
+            name="link"
+            value={values.link || ''}
+            onChange={handleChange}
+            id="create-card__link"
+            required
+            className="popup__input"
+          />
+          <span className="popup__error" id="create-card__link-error">
+            {errors.link || ''}
+          </span>
+        </label>
+      </fieldset>
     </PopupWithForm>
-  );
+  )
 }
 
-export default AddPlacePopup;
+

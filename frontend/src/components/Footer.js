@@ -1,9 +1,7 @@
-const Footer = () => {
+export default function Footer() {
   return (
-    <div className="footer">
-      <p className="footer__copyright">&copy; Mesto Russia 2022</p>
-    </div>
+    <footer className="footer page__footer">
+      <p className="footer__copyright">&copy; {new Date().getFullYear()} Mesto Russia</p>
+    </footer>
   );
-};
-
-export default Footer;
+}

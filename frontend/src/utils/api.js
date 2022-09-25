@@ -1,101 +1,119 @@
+const onError = res => {
+  if (res.ok) {
+    return res.json();
+  }
+
+  return Promise.reject(`Ошибка: ${res.status}`);
+};
+
 class Api {
-  constructor(confing) {
-    this._url = confing.url;
-    this._headers = confing.headers
+  constructor({baseUrl, headers}) {
+    this._url = baseUrl;
+    this._headers = headers;
   }
 
-  _checkError(res) {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
+  _getHeaders() {
+    const jwt = localStorage.getItem('jwt');
+    return {
+      'Authorization': `Bearer ${jwt}`,
+      ...this._headers,
+    };
   }
 
-  // Список всех карточек
+  // Получение карточек с сервера
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
       method: 'GET',
-      headers: this._headers
+      headers: this._getHeaders()
     })
-    .then(this._checkError);
+      .then(onError);
   }
 
-  // Информация пользователя
+  // Получение данных о пользователе с сервера
   getUserInfo() {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
-      headers: this._headers
+      headers: this._getHeaders()
     })
-    .then(this._checkError);
+      .then(onError);
   }
 
-  // Обновление аватара 
-  newAvatar(avatarUrl) {
-    const newConfing = {
+  // Возврат массива промисов
+  renderUserAndCards() {
+    return Promise.all([this.getUserInfo(), this.getInitialCards()])
+  }
+
+  // Запись данных пользователя на сервер
+  setUserInfo(info) {
+    return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: this._getHeaders(),
       body: JSON.stringify({
-        avatar: avatarUrl['avatar']
-      }),
-      
-    }
-    return fetch(`${this._url}/users/me/avatar`, newConfing)
-    .then(this._checkError);
+        name: info.name,
+        about: info.about
+      })
+    })
+    .then(onError)
+  }
+
+  // Добавление карточки на сервер
+  addCard(data) {
+    return fetch(`${this._url}/cards`, {
+      method: 'POST',
+      headers: this._getHeaders(),
+      body: JSON.stringify({
+        name: data.name,
+        link: data.link
+      })
+    })
+      .then(onError);
+  }
+
+  // Запись аватарка на сервер
+  setUserAvatar(input) {
+    return fetch(`${this._url}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this._getHeaders(),
+      body: JSON.stringify({
+        avatar: input.avatar
+      })
+    })
+    .then(onError)
+  }
+
+  // Отправление лайка на сервер
+  setLike(data) {
+    return fetch(`${this._url}/cards/${data._id}/likes`, {
+      method: 'PUT',
+      headers: this._getHeaders()
+    })
+      .then(onError);
+  }
+
+  // Убираем лайк с сервера
+  deleteLike(data) {
+    return fetch(`${this._url}/cards/${data._id}/likes`, {
+      method: 'DELETE',
+      headers: this._getHeaders()
+    })
+      .then(onError);
   }
 
   // Удаление карточки
-  removeCard(cardId) {
-    const newConfing = {
-      headers: this._headers,
+  deleteCard(data) {
+    return fetch(`${this._url}/cards/${data._id}`, {
       method: 'DELETE',
-    }
-    return fetch(`${this._url}/cards/${cardId}`, newConfing)
-    .then(this._checkError);
+      headers: this._getHeaders()
+    })
+      .then(onError);
   }
-
-  // Лайк и его удаление
-  changeLikeCardStatus(cardId, isLiked) {
-    const updateLike = {
-      headers: this._headers,
-      method: 'PUT', 
-    }
-   
-    const deleteLike = {
-      headers: this._headers,
-      method: 'DELETE', 
-    }
-    return fetch(`${this._url}/cards/likes/${cardId}`, isLiked ? deleteLike : updateLike)
-    .then(this._checkError);
-  }
-
-  // Отправление информации
-  patchProfileInfo(userData) {
-    const newConfing = {
-      method: 'PATCH',
-      headers: this._headers,
-      body: JSON.stringify(userData),
-    }
-    return fetch(`${this._url}/users/me`, newConfing)
-    .then(this._checkError);
-  }
-
-  // Отправление информации о фото и пользователе на сервер
-  patchCard(inputsValue) {
-    const newConfing = {
-      method: 'POST',
-      headers: this._headers,
-      body: JSON.stringify(inputsValue),
-      
-  }
-  return fetch(`${this._url}/cards`, newConfing)
-  .then(this._checkError);
-}
 }
 
-export default new Api({
-  url: `https://mesto.nomoreparties.co/v1/cohort-43/`,
+const api = new Api({
+  baseUrl: 'https://api.domainname.aflamme.nomorepartiesxyz.ru',
   headers: {
-      authorization: '292cceda-e820-4d58-9be5-30225e20d80b',
-      'Content-Type': 'application/json'
+    'Content-Type': 'application/json'
   }
 });
+
+export default api;

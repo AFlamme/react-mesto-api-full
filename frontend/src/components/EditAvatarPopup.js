@@ -1,39 +1,47 @@
-import PopupWithForm from "./PopupWithForm";
-import { useRef } from "react";
+import { useEffect } from 'react';
+import PopupWithForm from './PopupWithForm.js';
+import useFormWithValidation from '../hooks/useFormWithValidation.js';
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
-  const avaRef = useRef();
-  const handleSubmit = (e) => {
+export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, useEscapePress }) {
+  const {values, handleChange, resetForm, errors, isValid} = useFormWithValidation();
+
+  function handleSubmit(e) {
     e.preventDefault();
-    onUpdateAvatar({
-      avatar: avaRef.current.value,
-    });
-    e.target.reset();
-  };
+    onUpdateAvatar(values);
+  }
 
-  return (
+  // Очищаем поле
+  useEffect(() => {
+    resetForm();
+  }, [isOpen, resetForm]);
+
+  return(
     <PopupWithForm
-      name="refresh"
+      name="avatar"
       title="Обновить аватар"
       isOpen={isOpen}
-      container="popup__container popup__form"
-      buttonText="Сохранить"
       onClose={onClose}
-      handleSubmit={handleSubmit}>
-
-      <input
-        type="url"
-        className="popup__input"
-        name="avatar"
-        id="input__popup-avatar"
-        placeholder="Ссылка на аватар"
-        required
-        ref={avaRef}
-        defaultValue=""/>
-        
-      <span id="input__popup-avatar-error" className="popup__error" />
+      useEscapePress={useEscapePress}
+      onSubmit={handleSubmit}
+      isDisabled={!isValid}
+    >
+      <fieldset className="popup__info">
+        <label className="popup__label">
+          <input
+            type="url"
+            placeholder="Ссылка на изображение"
+            name="avatar"
+            id="avatar__link"
+            className="popup__input"
+            value={values.avatar || ''}
+            onChange={handleChange}
+            required
+          />
+          <span className="popup__error" id="avatar__link-error">
+            {errors.avatar || ''}
+          </span>
+        </label>
+      </fieldset>
     </PopupWithForm>
-  );
+  )
 }
-
-export default EditAvatarPopup;
