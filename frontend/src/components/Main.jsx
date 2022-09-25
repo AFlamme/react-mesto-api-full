@@ -7,7 +7,7 @@ export default function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, o
 
   return (
     <main className="main page__main">
-      <section aria-label="Блок с профилем пользователя" className="profile main__profile" >
+      <section aria-label="Пользователь" className="profile main__profile" >
         <div className="profile__avatar" style={{ backgroundImage: `url(${currentUser.avatar})` }}  onClick={onEditAvatar}></div>
         <div className="profile__info">
           <h1 className="profile__name">{currentUser.name}</h1>
@@ -16,7 +16,7 @@ export default function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, o
         </div>
         <button id="profile__add-button" type="button" className="profile__add-button" onClick={onAddPlace}></button>
       </section>
-      <section aria-label="Блок с фото-карточками" className="elements">
+      <section aria-label="Карточки" className="elements">
         <ul className="elements__list">
           {cards.map(card => {
             return(
