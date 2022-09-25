@@ -2,7 +2,7 @@ const { JWT_SECRET = 'dev-key' } = process.env;
 const jwt = require('jsonwebtoken');
 const UnauthorizedError = require('../errors/unauthorized-error');
 
-// мидлвара авторизации - проверяет наличие токена и верифицирует его
+// Проверяем наличие токена и верифицирует его
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
 
@@ -18,7 +18,7 @@ module.exports = (req, res, next) => {
   } catch (err) {
     next(new UnauthorizedError('Необходима авторизация.'));
   }
-  req.user = payload; // записываем пейлоуд в объект запроса
+  req.user = payload;
 
   next();
 };

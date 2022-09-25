@@ -2,15 +2,12 @@ import { useContext } from 'react';
 import { currentUserContext } from '../contexts/CurrentUserContext.js';
 
 export default function Card({ card, onCardDelete, onCardClick, onCardLike }) {
-  const currentUser = useContext(currentUserContext); // подписываемся на контекст
-
+  const currentUser = useContext(currentUserContext);
   // Определяем, являемся ли мы владельцем текущей карточки
   const isOwn = card.owner === currentUser._id;
-
   // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
   const isLiked = card.likes.some(i => i === currentUser._id);
-
-  // Создаём переменную, которую после зададим в `className` для кнопки лайка
+  // Создаём переменную, которую после зададим в 'className' для кнопки лайка
   const cardLikeButtonClassName = `element__like-button ${isLiked && 'element__like-button_active'}`;
 
   function handleClick() {

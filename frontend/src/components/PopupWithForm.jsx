@@ -2,7 +2,6 @@ export default function PopupWithForm({ name, title, isOpen, onClose, children, 
   function handleClickOverlay(e) {
     e.stopPropagation();
   }
-  // навешиваем обработчик по нажитию Esc
   useEscapePress(onClose, isOpen);
 
   return(

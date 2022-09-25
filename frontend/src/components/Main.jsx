@@ -3,12 +3,11 @@ import Card from './Card.jsx';
 import { currentUserContext } from '../contexts/CurrentUserContext.js';
 
 export default function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardDelete, onCardLike }) {
-
-  const currentUser = useContext(currentUserContext); // подписываемся на контекст
+  const currentUser = useContext(currentUserContext);
 
   return (
     <main className="main page__main">
-      <section aria-label="блок с профилем пользователя" className="profile main__profile" >
+      <section aria-label="Блок с профилем пользователя" className="profile main__profile" >
         <div className="profile__avatar" style={{ backgroundImage: `url(${currentUser.avatar})` }}  onClick={onEditAvatar}></div>
         <div className="profile__info">
           <h1 className="profile__name">{currentUser.name}</h1>
@@ -17,7 +16,7 @@ export default function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, o
         </div>
         <button id="profile__add-button" type="button" className="profile__add-button" onClick={onAddPlace}></button>
       </section>
-      <section aria-label="блок с фото-карточками" className="elements">
+      <section aria-label="Блок с фото-карточками" className="elements">
         <ul className="elements__list">
           {cards.map(card => {
             return(

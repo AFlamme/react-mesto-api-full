@@ -10,29 +10,28 @@ const router = require('./routes/routes');
 const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-// Слушаем 4000 порт
 const { PORT = 4000 } = process.env;
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // за 15 минут
-  max: 1000, // можно совершить максимум 1000 запросов с одного IP
+  windowMs: 15 * 60 * 1000,
+  max: 1000,
 });
 
 const app = express();
 
 app.use(cors());
 
-app.use(helmet()); // настраиваем заголовки
-app.use(limiter); // подключаем rate-limiter
+app.use(helmet());
+app.use(limiter);
 
-app.use(bodyParser.json()); // для собирания JSON-формата
+app.use(bodyParser.json());
 
 app.use(requestLogger);
 app.use(router);
 app.use(errorLogger);
 
-app.use(errors()); // обработчик ошибок celebrate
-app.use(errorHandler); // мидлвара централизованного обработчика ошибок
+app.use(errors());
+app.use(errorHandler);
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 

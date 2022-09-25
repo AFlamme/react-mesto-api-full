@@ -10,7 +10,7 @@ router.post('/signin', validateLogin, login);
 
 router.use('/users', userRouter);
 router.use('/cards', cardRouter);
-// Обработаем некорректный маршрут и вернём ошибку 404
+
 router.use('*', (req, res, next) => {
   next(new NotFoundError('Ресурс по указанному адресу не найден'));
 });

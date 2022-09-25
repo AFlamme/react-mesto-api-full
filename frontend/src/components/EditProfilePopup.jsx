@@ -4,9 +4,8 @@ import useFormWithValidation from '../hooks/useFormWithValidation.jsx';
 import PopupWithForm from './PopupWithForm.jsx';
 
 export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, useEscapePress }) {
-  const currentUser = useContext(currentUserContext); // подписка на контекст
-
-  const {values, handleChange, resetForm, errors, isValid} = useFormWithValidation();  // подключаем универсальный обработчик полей
+  const currentUser = useContext(currentUserContext);
+  const {values, handleChange, resetForm, errors, isValid} = useFormWithValidation();  // Универсальный обработчик полей
 
   // После загрузки текущего пользователя из API
   // его данные будут использованы в управляемых компонентах.

@@ -46,7 +46,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace, useEscapePr
         <label className="popup__label">
           <input
             type="url"
-            placeholder="Ссылка на картинку"
+            placeholder="URL-ссылка на картинку"
             name="link"
             value={values.link || ''}
             onChange={handleChange}
