@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import Card from './Card.js';
+import Card from './Card.jsx';
 import { currentUserContext } from '../contexts/CurrentUserContext.jsx';
 
 export default function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardDelete, onCardLike }) {
