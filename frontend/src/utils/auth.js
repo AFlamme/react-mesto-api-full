@@ -1,4 +1,4 @@
-const BASE_URL = "https://backend.mesto.tinaevnk.nomoredomains.xyz";
+const BASE_URL = "https://api.domainname.aflamme.nomorepartiesxyz.ru";
 
 const onError = res => {
   if (res.ok) {

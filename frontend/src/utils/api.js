@@ -20,7 +20,8 @@ class Api {
     };
   }
 
-  getInitialCards() { // получаем карточки с сервера
+  // Получение карточек с сервера
+  getInitialCards() {
     return fetch(`${this._url}/cards`, {
       method: 'GET',
       headers: this._getHeaders()
@@ -28,7 +29,8 @@ class Api {
       .then(onError);
   }
 
-  getUserInfo() {  // получаем данные о пользователе с сервера
+  // Получение данных о пользователе с сервера
+  getUserInfo() {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: this._getHeaders()
@@ -36,11 +38,13 @@ class Api {
       .then(onError);
   }
 
-  renderUserAndCards() { // если оба промиса зарезолвены - верни массив этих промисов
+  // Возврат массива промисов
+  renderUserAndCards() {
     return Promise.all([this.getUserInfo(), this.getInitialCards()])
   }
 
-  setUserInfo(info) { // записываем данные пользователя на сервер
+  // Запись данных пользователя на сервер
+  setUserInfo(info) {
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: this._getHeaders(),
@@ -52,7 +56,8 @@ class Api {
     .then(onError)
   }
 
-  addCard(data) { // добавляем карточку на сервер
+  // Добавление карточки на сервер
+  addCard(data) {
     return fetch(`${this._url}/cards`, {
       method: 'POST',
       headers: this._getHeaders(),
@@ -64,7 +69,8 @@ class Api {
       .then(onError);
   }
 
-  setUserAvatar(input) { // записываем аватарку на сервер
+  // Запись аватарка на сервер
+  setUserAvatar(input) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._getHeaders(),
@@ -75,7 +81,8 @@ class Api {
     .then(onError)
   }
 
-  setLike(data) { // отправляем лайк на сервер
+  // Отправление лайка на сервер
+  setLike(data) {
     return fetch(`${this._url}/cards/${data._id}/likes`, {
       method: 'PUT',
       headers: this._getHeaders()
@@ -83,7 +90,8 @@ class Api {
       .then(onError);
   }
 
-  deleteLike(data) { // убираем лайк с сервера
+  // Убираем лайк с сервера
+  deleteLike(data) {
     return fetch(`${this._url}/cards/${data._id}/likes`, {
       method: 'DELETE',
       headers: this._getHeaders()
@@ -91,7 +99,8 @@ class Api {
       .then(onError);
   }
 
-  deleteCard(data) { // удаление карточки
+  // Удаление карточки
+  deleteCard(data) {
     return fetch(`${this._url}/cards/${data._id}`, {
       method: 'DELETE',
       headers: this._getHeaders()
@@ -100,8 +109,8 @@ class Api {
   }
 }
 
-const api = new Api({ // создаём экземляр класса работающего с API сервера
-  baseUrl: 'https://backend.mesto.tinaevnk.nomoredomains.xyz',
+const api = new Api({
+  baseUrl: 'https://api.domainname.aflamme.nomorepartiesxyz.ru',
   headers: {
     'Content-Type': 'application/json'
   }
